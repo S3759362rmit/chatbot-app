@@ -10,15 +10,139 @@ import {
     Avatar,
     Paper
 } from "@material-ui/core";
+import Moment from "react-moment";
 import clsx from "clsx";
+import moment from "moment/moment";
 
-import InputBar from "./InputBar";
-
+const message = [
+    {
+        id: 1,
+        createdAt: "",
+        message: "Hi, James!",
+        senderId: {
+            _id: 2,
+            name: "Vesper",
+            surname: "Lynd"
+        }
+    },
+    {
+        id: 2,
+        createdAt: "",
+        message: "Hi, Vesper!",
+        senderId: {
+            _id: 1,
+            name: "James",
+            surname: "Bond"
+        }
+    },
+    {
+        id: 3,
+        createdAt: "",
+        message: "Quickly come to the meeting room 1B, we have a big server issue",
+        senderId: {
+            _id: 2,
+            name: "Vesper",
+            surname: "Lynd"
+        }
+    },
+    {
+        id: 4,
+        createdAt: "",
+        message: "I’m having breakfast right now, can’t you wait for 10 minutes?",
+        senderId: {
+            _id: 1,
+            name: "James",
+            surname: "Bond"
+        }
+    },
+    {
+        id: 5,
+        createdAt: "",
+        message: "I’m having breakfast right now, can’t you wait for 10 minutes?",
+        senderId: {
+            _id: 1,
+            name: "James",
+            surname: "Bond"
+        }
+    },
+    {
+        id: 6,
+        createdAt: "",
+        message: "We are losing money! Quick!",
+        senderId: {
+            _id: 2,
+            name: "Vesper",
+            surname: "Lynd"
+        }
+    },
+    {
+        id: 7,
+        createdAt: "",
+        message:
+            "It’s not my money, you know. I will eat my breakfast and then I will come to the meeting room.",
+        senderId: {
+            _id: 1,
+            name: "James",
+            surname: "Bond"
+        }
+    },
+    {
+        id: 8,
+        createdAt: "",
+        message: "You are the worst!",
+        senderId: {
+            _id: 2,
+            name: "Vesper",
+            surname: "Lynd"
+        }
+    },
+    {
+        id: 9,
+        createdAt: "",
+        message: "We are losing money! Quick!",
+        senderId: {
+            _id: 2,
+            name: "Vesper",
+            surname: "Lynd"
+        }
+    },
+    {
+        id: 10,
+        createdAt: "",
+        message: "You are the worst!",
+        senderId: {
+            _id: 2,
+            name: "Vesper",
+            surname: "Lynd"
+        }
+    },
+    {
+        id: 11,
+        createdAt: "",
+        message: "We are losing money! Quick!",
+        senderId: {
+            _id: 2,
+            name: "Vesper",
+            surname: "Lynd"
+        }
+    },
+    {
+        id: 12,
+        createdAt: "",
+        message:
+            "It’s not my money, you know. I will eat my breakfast and then I will come to the meeting room.",
+        senderId: {
+            _id: 1,
+            name: "James",
+            surname: "Bond"
+        }
+    }
+];
 
 const useStyles = makeStyles((theme) => ({
     root: {
         "& > *": {
-            margin: theme.spacing(0)
+            margin: theme.spacing(1)
         }
     },
     messageRow: {
@@ -144,8 +268,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function ChatBox(props) {
-    const { message } = props
+export default function App() {
     const classes = useStyles();
 
     const [state, setState] = useState({
@@ -161,19 +284,19 @@ function ChatBox(props) {
 
     const { userMyInfo, chat, msgState } = state;
 
-    // const sendMessage = () => { };
+    const sendMessage = () => { };
 
-    // const oldMessage = () => {
-    //     //http request
-    //     fetch("")
-    //         .then((response) => response.json())
-    //         .then((message) => {
-    //             setState(...(prev) => ({ ...prev, chat: [...message, ...prev.chat] }));
-    //         })
-    //         .catch((error) => {
-    //             console.error(error);
-    //         });
-    // };
+    const oldMessage = () => {
+        //http request
+        fetch("")
+            .then((response) => response.json())
+            .then((message) => {
+                setState(...(prev) => ({ ...prev, chat: [...message, ...prev.chat] }));
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
 
     const messagesEndRef = useRef(null);
     const scrollToBottom = () => {
@@ -236,21 +359,21 @@ function ChatBox(props) {
                                 {item.senderId._id !== userMyInfo.id &&
                                     shouldShowContactAvatar(item, key) && (
                                         <Avatar className={classes.avatar}>
-                                            M M
+                                            {item.senderId.name[0]} {item.senderId.surname[0]}
                                         </Avatar>
                                     )}
                                 <div className={classes.bubble}>
                                     <div className={classes.message}>{item.message}</div>
-                                    {/* <Typography className={classes.time} color="textSecondary">
-                                    </Typography> */}
+                                    <Typography className={classes.time} color="textSecondary">
+                                        {moment(item.time).format("MMMM Do YYYY, h:mm:ss a")}
+                                    </Typography>
                                 </div>
                             </div>
                         ))
                     )}
                     <div ref={messagesEndRef} />
-                    {/* <InputBar /> */}
                 </div>
-                {/* <div style={{ padding: 5, display: "flex", flexDirection: "row" }}>
+                <div style={{ padding: 5, display: "flex", flexDirection: "row" }}>
                     <TextField
                         required
                         id="outlined-required"
@@ -264,9 +387,8 @@ function ChatBox(props) {
                     <IconButton onClick={() => sendMessage()} disabled={msgState === ""}>
                         <Icon>send</Icon>
                     </IconButton>
-                </div> */}
+                </div>
             </Card>
         </Paper>
     );
 }
-export default ChatBox;
